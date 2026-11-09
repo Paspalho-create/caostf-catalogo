@@ -16,6 +16,10 @@ depois de gerar de novo, copie e faça commit.
 | `robots.txt` | `Disallow: /` (link não indexado) |
 | `.nojekyll` | desliga o Jekyll do GitHub Pages (publica os arquivos como estão) |
 
+> **Não indexar:** o `robots.txt` de uma subpasta não é lido pelo Google (ele só busca `/robots.txt` na raiz do domínio).
+> Por isso o `atualizar.ps1` injeta `<meta name="robots" content="noindex,nofollow,noarchive">` no `<head>` de cada página — é o que de fato bloqueia buscador.
+> Também injeta um favicon `data:` inline (evita 404 de `/favicon.ico`).
+
 ## Como atualizar
 
 ```powershell
