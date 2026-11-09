@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+# Catálogo de uso comercial do CaosTF — link não listado.
+# Não indexar em buscadores.
