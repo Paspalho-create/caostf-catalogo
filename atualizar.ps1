@@ -7,11 +7,13 @@ $utf8 = New-Object System.Text.UTF8Encoding($false)
 
 # favicon inline (sem requisicao externa; evita 404 de /favicon.ico)
 $icon = "<link rel=`"icon`" href=`"data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0,0,32,32'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%23d99a4e'/%3E%3Ctext%20x='16'%20y='23'%20font-family='Arial'%20font-size='20'%20font-weight='700'%20text-anchor='middle'%20fill='%2314161a'%3EC%3C/text%3E%3C/svg%3E`">"
+# noindex de verdade: robots.txt so vale na raiz do dominio, entao o meta e o que bloqueia buscador
+$noindex = "<meta name=`"robots`" content=`"noindex,nofollow,noarchive`">"
 
 $htmls = Get-ChildItem (Join-Path $src "catalogo-*.html")
 foreach ($h in $htmls) {
   $txt = [IO.File]::ReadAllText($h.FullName, $utf8)
-  if ($txt -notmatch 'rel="icon"') { $txt = ([regex]'</title>').Replace($txt, ('</title>' + $icon), 1) }
+  if ($txt -notmatch 'rel="icon"') { $txt = ([regex]'</title>').Replace($txt, ('</title>' + $icon + $noindex), 1) }
   [IO.File]::WriteAllText((Join-Path $dst $h.Name), $txt, $utf8)
 }
 $hub = Join-Path $dst "catalogo-moveis.html"
