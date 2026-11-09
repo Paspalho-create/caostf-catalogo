@@ -11,7 +11,7 @@ $icon = "<link rel=`"icon`" href=`"data:image/svg+xml,%3Csvg%20xmlns='http://www
 $htmls = Get-ChildItem (Join-Path $src "catalogo-*.html")
 foreach ($h in $htmls) {
   $txt = [IO.File]::ReadAllText($h.FullName, $utf8)
-  if ($txt -notmatch 'rel="icon"') { $txt = $txt -replace '(</title>)', ('$1' + $icon) }
+  if ($txt -notmatch 'rel="icon"') { $txt = ([regex]'</title>').Replace($txt, ('</title>' + $icon), 1) }
   [IO.File]::WriteAllText((Join-Path $dst $h.Name), $txt, $utf8)
 }
 $hub = Join-Path $dst "catalogo-moveis.html"
